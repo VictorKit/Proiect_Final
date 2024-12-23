@@ -1,11 +1,10 @@
 from fastapi import FastAPI
+from src.routes import router as router_users
+from src.database import Base, engine
+
+# Create database tables
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-@app.get("/")
-def read_root():
-    return {"message": "Hello, world!"}
-
-@app.get("/hello/{name}")
-async def hello(name: str):
-    return {"message": f"Hello, {name}!"}
+app.include_router(router_users)
